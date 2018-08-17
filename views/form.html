@@ -61,27 +61,41 @@
         }
     </style>
 </head>
-<body class="text-center">
-<form class="form-signin" action="/home" method="post">
+<body class="text-center" onload="getTokenAndInject()">
+<form class="form-signin" id="contentForm" method="post" action="/posts">
     <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
     <h1>Synchronizer Token Pattern</h1>
-    <p>Sign In !</p>
+    <p>Add New Post !</p>
     <!--<h4 class="h3 mb-3 font-weight-normal">Please sign in</h4>-->
-    <label for="inputUsername" class="sr-only">Username</label>
-    <input type="text" id="inputUsername" name="inputUsername" class="form-control" placeholder="Username" required autofocus>
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Password" required>
-    <div class="checkbox mb-3">
-        <label>
-            Username and Password is root
-        </label>
+    <div class="form-group">
+        <label for="inputTitle">Title</label>
+        <input type="text" class="form-control" id="inputTitle" name="inputTitle" placeholder="Title">
     </div>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <div class="form-group">
+        <label for="inputContent">Content</label>
+        <textarea class="form-control" id="inputContent" name="inputContent" rows="3"></textarea>
+    </div>
+    <div class="alert alert-danger" role="alert" id="errorMessage">
+        Invalid CSRF Token !!
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Add New Post !</button>
+    <button class="btn btn-lg btn-warning btn-block">Sign Out !</button>
     <p class="mt-5 mb-3 text-muted">&copy; L.T. Marasinghe - IT 15 0190 28</p>
 </form>
 </body>
 </html>
 
 <script>
-
+    function getTokenAndInject() {
+        $("#errorMessage").hide();
+        axios.post('/tokens', {withCredentials: true})
+            .then(response => {
+                $("#contentForm").append(
+                    `<input type="text" hidden name="inputToken" id="inputToken" value=${response.data.token} />`
+                )
+            })
+            .catch(error => {
+                $("#errorMessage").show();
+            });
+    }
 </script>

@@ -62,26 +62,15 @@
     </style>
 </head>
 <body class="text-center">
-<form class="form-signin" action="/home" method="post">
+<div class="form-signin" id="contentForm" method="post" action="/posts">
     <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
     <h1>Synchronizer Token Pattern</h1>
-    <p>Sign In !</p>
-    <!--<h4 class="h3 mb-3 font-weight-normal">Please sign in</h4>-->
-    <label for="inputUsername" class="sr-only">Username</label>
-    <input type="text" id="inputUsername" name="inputUsername" class="form-control" placeholder="Username" required autofocus>
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Password" required>
-    <div class="checkbox mb-3">
-        <label>
-            Username and Password is root
-        </label>
+    <p>Content Adding Success !</p>
+    <div class="alert alert-success" role="alert" id="errorMessage">
+        Valid CSRF Token !!
     </div>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <button class="btn btn-lg btn-warning btn-block" onclick="history.back()">Go Back !</button>
     <p class="mt-5 mb-3 text-muted">&copy; L.T. Marasinghe - IT 15 0190 28</p>
-</form>
+</div>
 </body>
 </html>
-
-<script>
-
-</script>
