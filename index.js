@@ -15,7 +15,6 @@ app.use(cookieParser());
 
 // Views
 app.use(express.static('views'));
-app.use(express.static('styles'));
 
 // Server Startup
 app.listen(PORT, () => {
@@ -27,7 +26,15 @@ const SESSION_IDS = {};
 
 // Login Page Load
 app.get('/', (req, res) => {
-    res.sendFile('views/login.html', {root: __dirname});
+
+    const sessionID = req.cookies['session-id'];
+    if (sessionID && SESSION_IDS[sessionID]) {
+        console.log("Login: Valid Session Found !");
+        res.sendFile('views/form.html', {root: __dirname});
+    } else {
+        console.log("Login: No Valid Session Found !");
+        res.sendFile('views/login.html', {root: __dirname});
+    }
 });
 
 // Validate Credentials
@@ -38,9 +45,13 @@ app.post('/home', (req, res) => {
 
     if (username === 'root' && password === 'root') {
 
+        console.log("Home: Logged with valid credentials");
+
         // Generating Session ID and Token
         const SESSION_ID = uuidv1();
         const CSRF_TOKEN = uuidv4();
+
+        console.log(`Generated Session ID: ${SESSION_ID}, CSRF Token: ${CSRF_TOKEN}`);
 
         // Saving token with session ID
         SESSION_IDS[SESSION_ID] = CSRF_TOKEN;
@@ -61,9 +72,11 @@ app.post('/tokens', (req, res) => {
     const sessionID = req.cookies['session-id'];
     console.log(sessionID);
     if (SESSION_IDS[sessionID]) {
+        console.log("POST /tokens: Valid Session ID Found !");
         const response = {token: SESSION_IDS[sessionID]};
         res.json(response);
     } else {
+        console.log("POST /tokens: No Valid Session ID Found !");
         const error = {status: 400, message: 'Invalid Session ID'};
         res.status(400).json(error)
     }
@@ -78,15 +91,29 @@ app.post('/posts', (req, res) => {
     const inputToken = req.body.inputToken;
     const sessionID = req.cookies['session-id'];
 
-    console.log(req.body);
-
     // Checking if Session ID matches CSRF Cookie
     if (SESSION_IDS[sessionID] && SESSION_IDS[sessionID] === inputToken) {
+        console.log("Post Content: Valid Session Found !");
         res.sendFile('views/form-success.html', {root: __dirname});
     } else {
+        console.log("Post Content: No Valid Session Found !");
         res.sendFile('views/form-error.html', {root: __dirname});
     }
 
+});
+
+// Signs out and clear the session ID with CSRF token
+app.post('/logout', (req, res) => {
+
+    const sessionID = req.cookies['session-id'];
+    delete SESSION_IDS[sessionID];
+
+    console.log(sessionID + ': Removed');
+
+    res.clearCookie("session-id");
+    res.clearCookie("time");
+
+    res.sendFile('views/login.html', {root: __dirname});
 });
 
 // respond with "hello world" when a GET request is test route

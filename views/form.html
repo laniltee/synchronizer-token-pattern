@@ -79,7 +79,7 @@
         Invalid CSRF Token !!
     </div>
     <button class="btn btn-lg btn-primary btn-block" type="submit">Add New Post !</button>
-    <button class="btn btn-lg btn-warning btn-block">Sign Out !</button>
+    <button class="btn btn-lg btn-warning btn-block" onclick="signOut()" type="button">Sign Out !</button>
     <p class="mt-5 mb-3 text-muted">&copy; L.T. Marasinghe - IT 15 0190 28</p>
 </form>
 </body>
@@ -96,6 +96,14 @@
             })
             .catch(error => {
                 $("#errorMessage").show();
+                window.location.href = '/';
             });
+    }
+
+    function signOut() {
+        if (confirm("Are you sure to Sign Out ?")) {
+            $("#contentForm").attr("action", "/logout");
+            $("#contentForm").submit();
+        }
     }
 </script>
