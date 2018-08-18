@@ -62,7 +62,7 @@ app.post('/home', (req, res) => {
         res.sendFile('views/form.html', {root: __dirname});
     } else {
         const error = {status: 401, message: 'Invalid Credentials'};
-        res.status(400).json(error)
+        res.sendFile('views/form-error.html', {root: __dirname});
     }
 
 });
@@ -114,6 +114,20 @@ app.post('/logout', (req, res) => {
     res.clearCookie("time");
 
     res.sendFile('views/login.html', {root: __dirname});
+});
+
+// When user exciplity load home page URL
+app.get('/home', (req, res) => {
+
+    const sessionID = req.cookies['session-id'];
+    if (sessionID && SESSION_IDS[sessionID]) {
+        console.log("GET /home: Valid Session Found !");
+        res.sendFile('views/form.html', {root: __dirname});
+    } else {
+        console.log("GET /home: No Valid Session Found !");
+        res.sendFile('views/login.html', {root: __dirname});
+    }
+
 });
 
 // respond with "hello world" when a GET request is test route
