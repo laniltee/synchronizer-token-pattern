@@ -132,6 +132,11 @@ app.get('/home', (req, res) => {
 
 });
 
+// When user exciplity load logout page URL
+app.get('/logout', (req, res) => {
+    res.redirect('/');
+});
+
 // respond with "hello world" when a GET request is test route
 app.get('/health', function (req, res) {
     res.send('Welcome to Synchronize Token Pattern Demo !')
