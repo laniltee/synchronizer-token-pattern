@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const uuidv1 = require('uuid/v1');
 const uuidv4 = require('uuid/v4');
 const cookieParser = require('cookie-parser');
+const nocache = require('nocache');
 
 const app = express();
 
@@ -12,6 +13,7 @@ const PORT = 8080;
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(nocache());
 
 // Views
 app.use(express.static('views'));
