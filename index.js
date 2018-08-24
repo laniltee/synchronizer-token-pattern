@@ -7,7 +7,7 @@ const nocache = require('nocache');
 
 const app = express();
 
-const PORT = 8080;
+const PORT = 3000;
 
 // Applying middleware
 app.use(bodyParser.urlencoded({extended: false}));
