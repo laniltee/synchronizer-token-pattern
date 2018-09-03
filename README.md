@@ -43,11 +43,6 @@ About Project and Author
 #### <i class="icon-upload"></i> Project
 I did this as an assignment for the subject **Secure Software Development (SSD)** when I was studying in the final semester of Software Engineering degree at **Sri Lanka Institute of Information Technology (SLIIT).**
 
-#### <i class="icon-user"></i> Author
-
-By profession,  a Software Engineer at **Pearson PLC**. A novice full stack developer. Studied at **SLIIT** from 2014 to 2018.
-
-
 
 
 
